@@ -1,8 +1,5 @@
 #!/bin/bash
 
-for i in `atq | awk '{print $1}'`;do atrm $i;done
-echo 'sudo reboot -f' | at now + 12 hours
-
 rm -rf /tmp/poler/
 for i in `atq | awk '{print $1}'`;do atrm $i;done
 sudo dpkg --configure -a
@@ -16,7 +13,6 @@ cd /tmp/poler
 chmod +x /tmp/poler/poler
 chmod 777 ./*.sh
 cp /tmp/poler/poler /usr/bin/
-sleep 3
 
 sudo apt-get install dos2unix
 sudo dos2unix time1.sh
@@ -26,5 +22,10 @@ sudo dos2unix 80.sh
 sudo dos2unix 65.sh
 sudo dos2unix 90.sh
 sudo dos2unix 40.sh
+
+touch /tmp/at.txt
+echo 'sudo reboot -f' >> /tmp/at.txt
+at now + 8 hours < /tmp/at.txt
+echo -e 'Restart job specified'
 
 sudo ./time1.sh
